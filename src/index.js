@@ -9,7 +9,7 @@ class Index extends React.Component {
         "What is the famous moon of Pluto?",
         "Both correct."],
         immi: null,
-        mo: null
+        mo: "no answers yet"
     };
 
         this.handleChange = this.handleChange.bind(this);
@@ -18,31 +18,44 @@ class Index extends React.Component {
 
     handleChange(event) {
         this.setState({value: event.target.value, output: true});
+        const makeString = "http://localhost:3434/student/"+this.state.value
+        fetch(makeString).then(res => res.json())
+        .then(more => {
+          console.log("fetch body ",this.state.mo)
+          this.setState({mo : more.firstName})
+          console.log("expect flavio", more.username)
+          console.log("expect flavio", this.state.no)
+        })
+
       }
     
       handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
+        
 
         fetch("http://localhost:3434/student/",{
           method: 'POST',
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({firstName: "happy",
-            lastName: this.state.value,
+          body: JSON.stringify({firstName: this.state.value,
+            lastName: "happy",
             age: 9
           })
         })
-
+        console.log("this happens");
+        
+       
+        console.log("this still happens");
 
         event.preventDefault();
       }
 
     componentDidMount(){
-      fetch("http://localhost:3434/student/mo")
-      .then(res => res.json())
-      .then(student => {
-        console.log(student)
-        this.setState({mo: student.age})
-      })
+      // fetch("http://localhost:3434/student/mo")
+      // .then(res => res.json())
+      // .then(student => {
+      //   console.log(student)
+      //   this.setState({mo: student.age})
+      // })
 
       fetch("http://localhost:3434/more")
       .then(res => res.json())
@@ -63,7 +76,8 @@ class Index extends React.Component {
 
   return (
       <div>
-        <div>Welcome to quesfdstions! Type 'question' to get started.</div>
+        <div>Welcome to questions! Type 'question' to get started.</div>
+        <div>Your last answer will be preserved below.</div>
         <form onSubmit={this.handleSubmit}>
         <label>Answer: <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
