@@ -15,6 +15,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "local-storage": "^2.0.0",
+    "mongoose": "^5.7.4",
     "node-persist": "^3.0.5",
     "parcel-bundler": "^1.12.4",
     "pouchdb": "^7.1.1",
