@@ -8,6 +8,8 @@ class Index extends React.Component {
         questions: ["What is the famous moon of Saturn? Answer the question for another secret question.",
         "What is the famous moon of Pluto?",
         "Both correct."],
+        immi: null,
+        mo: null
     };
 
         this.handleChange = this.handleChange.bind(this);
@@ -20,6 +22,17 @@ class Index extends React.Component {
     
       handleSubmit(event) {
         alert('A name was submitted: ' + this.state.value);
+
+        fetch("http://localhost:3434/student/",{
+          method: 'POST',
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({firstName: "happy",
+            lastName: this.state.value,
+            age: 9
+          })
+        })
+
+
         event.preventDefault();
       }
 
@@ -28,13 +41,26 @@ class Index extends React.Component {
       .then(res => res.json())
       .then(student => {
         console.log(student)
-      }
+        this.setState({mo: student.age})
+      })
 
-      )
+      fetch("http://localhost:3434/more")
+      .then(res => res.json())
+      .then(more => {
+        console.log("expect null: ",this.state.immi)
+        this.setState({immi : more.username})
+        console.log("expect flavio", more.username)
+        console.log("expect flavio", this.state.immi)
+      })
+
     }
 
     render(){
       console.log('bi')
+
+
+
+
   return (
       <div>
         <div>Welcome to quesfdstions! Type 'question' to get started.</div>
@@ -46,6 +72,7 @@ class Index extends React.Component {
       <div>{this.state.value == "question" ? this.state.questions[0] :
        this.state.value == "Titan" ? this.state.questions[1] :
         this.state.value == "Charon" ? this.state.questions[2]: "" }</div>
+        <div>{this.state.mo}</div>
       </div>
       
     )
