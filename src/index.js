@@ -77,7 +77,7 @@ class Index extends React.Component {
   return (
       <div>
         <div>Welcome to questions! Type 'question' to get started.</div>
-        <div>Your last answer will be preserved below.</div>
+        <div>Your last answer can be submitted below.</div>
         <form onSubmit={this.handleSubmit}>
         <label>Answer: <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
